@@ -1,13 +1,12 @@
 import React from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import Header from '../BaseUI/Header';
 import NavigationBar from '../BaseUI/NavigationBar';
+import {authController} from '../Controllers/AuthController';
 
 import 'mdbreact/dist/css/mdb.css';
 import '../fontawesome/css/all.css'
-const API_URL = 'http://localhost:5000';
 
 class SignUp extends React.Component
 {
@@ -37,27 +36,11 @@ class SignUp extends React.Component
             'email': email.value,
             'password': password.value
         }
-        const url_ = `${API_URL}/UserManagement/SignUp`;
-        var self=this;
-        axios({
-            method: 'post',
-            url: url_,
-            data: bodyFormData,
-            config: { headers: {'Content-Type': 'application/json' }}
-            })
-            .then(function (response) {
-                //handle success
-                //var auth_token = response.data["token"];
-                //localStorage.setItem("AUTH_TOKEN",auth_token);
-                console.log(response);
-                self.setRedirect();
-                //this.props.history.push('/')
-                //window.location.href='localhost:3000';
-            })
-            .catch(function (response) {
-                //handle error
-                console.log(response);
-            });
+        var self = this;
+
+        authController.SignUp(bodyFormData).then(()=>{
+          self.setState();
+        });
     }
     
     render = () => {

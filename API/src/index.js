@@ -30,7 +30,10 @@ app.use('/user', passport.authenticate('jwt', { session: false }), user);
 
 //user.js
 const product = require('./Routes/Products');
-app.use('/Products/Add', passport.authenticate('jwt', { session: false }), product);
+app.use('/Products', passport.authenticate('jwt', { session: false }), product);
+app.use('/Products/Add',passport.authenticate('jwt', { session: false }),  product);
+app.use('/Products/Upload',passport.authenticate('jwt', { session: false }),  product);
+//app.use('/Products/Add1',  product);
 
 //Students.js
 const student = require('./StudentManagement/Students');
