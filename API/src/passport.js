@@ -48,7 +48,7 @@ passport.use(new JWTStrategy({
     secretOrKey: 'your_jwt_secret'
 },
     function (jwtPayload, cb) {
-        console.log(jwtPayload);
+        //console.log(jwtPayload);
 
         //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
         //var user = querydb.QueryDb('select top 1 * from NodeUsers where email = \'' + email + '\'');
