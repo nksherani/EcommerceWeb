@@ -6,6 +6,9 @@ var bcrypt = require('bcryptjs');
 const router = express.Router();
 var multer = require('multer');
 const Excel = require('exceljs');
+const fs = require('fs');
+var excel = require('../Utils/Excel');
+
 /* GET users listing. */
 router.get('/', function (req, res, next) {
     //console.log(req);
@@ -26,14 +29,17 @@ router.post('/Add', function (req, res, next) {
         if (err)
             console.log(err);
         else
-            console.log(result)
+        {
+            console.log(result);
+            //querydb.QueryDb('commit;');
+        }
+            
     });
     res.send('Product added successfully');
     next();
 
 });
 
-var excel = require('../Utils/Excel');
   //excel.exTest();
 
 
@@ -49,8 +55,6 @@ var excel = require('../Utils/Excel');
 //   }
 // });
 //var upload = multer({ storage: storage }).single('file')
-const fs = require('fs');
-
 var upload = multer({
     dest: 'images/'
 })
@@ -60,10 +64,16 @@ router.post('/Upload', upload.single('file'), function (req, res) {
     const testFolder = 'images';
     fs.rename('./images/'+req.file.filename, './images/'+req.file.originalname, function (err) {
         if (err) console.log('ERROR: ' + err);
+        else{
+            fs.readdirSync(testFolder).forEach(file => {
+                //console.log(file);
+            });
+            excel.ReadExcel( './images/'+req.file.originalname);
+        }
     });
-    fs.readdirSync(testFolder).forEach(file => {
-        console.log(file);
-    });
+    
+    
+
     //console.log(req.file.originalname);
     
 
